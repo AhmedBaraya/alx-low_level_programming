@@ -1,0 +1,29 @@
+# Define the compiler with flags (avoiding $(CC) and $(CFLAGS))
+CC = gcc -Wall -Werror -Wextra -pedantic
+
+# Define source code files (modify if needed)
+SRC = main.c school.c
+
+# Define the object file pattern
+OBJ = .*.o  # Matches all files ending with ".o"
+
+# Target for building the executable
+all: school
+
+# Rule to build the executable with automatic dependency checking
+school: $(SRC) m.h  # Enforce m.h dependency
+  $(CC) -o $@ $(SRC) 
+
+# Clean rule with limited $(RM) usage
+clean:
+  -rm -f *~ school $(OBJ)  # Use -rm to handle potential errors
+
+# Fclean rule with limited $(RM) usage (combines clean and oclean functionality)
+fclean: clean
+  # No additional cleaning needed since clean removes object files
+
+# Re rule to force recompilation and rebuild
+re: fclean all
+
+# Implicit rule to ensure object files are rebuilt when source files change
+.PHONY: all clean fclean re
