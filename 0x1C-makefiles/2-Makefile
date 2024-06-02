@@ -1,0 +1,27 @@
+# Define the compiler
+CC = gcc
+
+# Define source code files (modify if needed)
+SRC = main.c school.c
+
+# Define object file pattern (without listing individual files)
+OBJ = %.o
+
+# Target for building the executable
+all: school
+
+# Rule to build the executable with automatic dependency checking
+school: $(OBJ)
+  $(CC) $(LDFLAGS) $(LIBS) -o $@ $^
+
+# Rule to compile individual source files into object files
+%.o: %.c
+  $(CC) -c -o $@ $<
+
+# Implicit rule to ensure object files are rebuilt when source files change
+.PHONY: all clean
+
+# Clean rule to remove object files and executable (optional)
+clean:
+  rm -f $(OBJ) school
+
