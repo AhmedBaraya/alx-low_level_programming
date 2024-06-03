@@ -1,29 +1,26 @@
-# Define the compiler with flags (avoiding $(CC) and $(CFLAGS))
-CC = gcc -Wall -Werror -Wextra -pedantic
-
-# Define source code files (modify if needed)
+NAME = school
+CC = gcc
 SRC = main.c school.c
+OBJ = $(SRC:.c=.o)
+CFLAGS = -Wall -Werror -Wextra -pedantic
 
-# Define the object file pattern
-OBJ = .*.o  # Matches all files ending with ".o"
+all: $(NAME)
 
-# Target for building the executable
-all: school
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) -o $(NAME)
 
-# Rule to build the executable with automatic dependency checking
-school: $(SRC) m.h  # Enforce m.h dependency
-  $(CC) -o $@ $(SRC) 
+%.o: %.c m.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean rule with limited $(RM) usage
 clean:
-  -rm -f *~ school $(OBJ)  # Use -rm to handle potential errors
+	$(RM) *~
 
-# Fclean rule with limited $(RM) usage (combines clean and oclean functionality)
-fclean: clean
-  # No additional cleaning needed since clean removes object files
+oclean:
+	$(RM) $(OBJ)
 
-# Re rule to force recompilation and rebuild
+fclean: clean oclean
+	$(RM) $(NAME)
+
 re: fclean all
 
-# Implicit rule to ensure object files are rebuilt when source files change
-.PHONY: all clean fclean re
+.PHONY: all clean oclean fclean re
