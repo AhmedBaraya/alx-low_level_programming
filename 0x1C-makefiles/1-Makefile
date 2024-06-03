@@ -1,20 +1,9 @@
-# Define the compiler
+# Define variables
 CC = gcc
-
-# Define source code files (modify if needed)
 SRC = main.c school.c
 
-# Target for building the executable
-all: school
+# all rule to build the executable
+all:
+	$(CC) $(SRC) -o school
 
-# Rule to build the executable
-school: $(SRC)
-  $(CC) -o school $(SRC)
-
-# Clean rule to remove the executable (optional)
-clean:
-  rm -f school
-
-# Implicit rule to recompile if source files change
-.PHONY: all clean
 
