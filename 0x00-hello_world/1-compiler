@@ -1,0 +1,6 @@
+#!/bin/bash
+# Extract the filename without extension
+filename=$(basename "$CFILE" .c)
+# Compile the C file into an object file
+gcc -c "$CFILE" -o "$filename.o"
+
